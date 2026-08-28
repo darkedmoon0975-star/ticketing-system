@@ -48,29 +48,37 @@ function checkAuth() {
     const currentUser = sessionStorage.getItem('currentUser');
     const currentRole = sessionStorage.getItem('currentRole');
 
-    if (currentUser) {
+    if (currentUser && loginSection && dashboardSection) {
         loginSection.classList.add('hidden');
         dashboardSection.classList.remove('hidden');
-        welcomeUser.textContent = `Welcome, ${currentUser} (${currentRole})`;
+        if (welcomeUser) {
+            welcomeUser.textContent = `Welcome, ${currentUser} (${currentRole})`;
+        }
         renderTickets();
-    } else {
+    } else if (loginSection && dashboardSection) {
         loginSection.classList.remove('hidden');
         dashboardSection.classList.add('hidden');
     }
 }
 
-// Handle Login Submission
+// Handle Login Submission Safely
 if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        
         const usernameInput = document.getElementById('username');
         const roleInput = document.getElementById('role');
         
-        if (usernameInput && usernameInput.value.trim() !== '') {
-            sessionStorage.setItem('currentUser', usernameInput.value.trim());
-            sessionStorage.setItem('currentRole', roleInput.value);
-            loginForm.reset();
-            checkAuth();
+        if (usernameInput) {
+            const username = usernameInput.value.trim();
+            const role = roleInput ? roleInput.value : 'Customer';
+            
+            if (username !== '') {
+                sessionStorage.setItem('currentUser', username);
+                sessionStorage.setItem('currentRole', role);
+                loginForm.reset();
+                checkAuth(); // Switch views instantly
+            }
         }
     });
 }
@@ -151,5 +159,5 @@ function escapeHTML(str) {
     );
 }
 
-// Run initial check on load
+// Run initial check on page load
 checkAuth();
