@@ -3,45 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Ticket System - Login</title>
+    <title>Support Ticket System</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Extra styling specifically for the login container */
-        .auth-container {
-            max-width: 400px;
-            margin: 5rem auto;
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid var(--border-color);
-        }
-        .auth-container h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            text-align: center;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .btn-logout {
-            background-color: #ef4444;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-        }
-        .btn-logout:hover {
-            background-color: #dc2626;
-        }
-    </style>
 </head>
 <body>
 
+    <!-- LOGIN SECTION -->
     <div id="loginSection" class="auth-container">
         <h2>System Login</h2>
         <form id="loginForm">
@@ -60,6 +28,7 @@
         </form>
     </div>
 
+    <!-- DASHBOARD SECTION -->
     <div id="dashboardSection" class="dashboard-container hidden">
         <header>
             <h1>Support Ticketing System</h1>
@@ -95,8 +64,7 @@
 
         <section>
             <h2>All Tickets</h2>
-            <div id="ticketGrid" class="ticket-grid">
-                </div>
+            <div id="ticketGrid" class="ticket-grid"></div>
         </section>
     </div>
 
@@ -128,12 +96,9 @@
             getAllTickets() { return this.tickets; }
         }
 
-        // Initialize System & Mock Data
         const system = new TicketingSystem();
         system.createTicket('Cannot connect to VPN', 'Getting error 691 when attempting connection.', 'High', 'Bob');
-        system.createTicket('Password Reset', 'Need a reset link for my corporate account.', 'Medium', 'Charlie');
 
-        // DOM Elements
         const loginSection = document.getElementById('loginSection');
         const dashboardSection = document.getElementById('dashboardSection');
         const loginForm = document.getElementById('loginForm');
@@ -142,7 +107,6 @@
         const ticketForm = document.getElementById('ticketForm');
         const ticketGrid = document.getElementById('ticketGrid');
 
-        // Check if user is already logged in during session
         function checkAuth() {
             const currentUser = sessionStorage.getItem('currentUser');
             const currentRole = sessionStorage.getItem('currentRole');
@@ -158,12 +122,10 @@
             }
         }
 
-        // Handle Login Submission
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const username = document.getElementById('username').value.trim();
             const role = document.getElementById('role').value;
-
             if (username) {
                 sessionStorage.setItem('currentUser', username);
                 sessionStorage.setItem('currentRole', role);
@@ -172,28 +134,23 @@
             }
         });
 
-        // Handle Logout
         logoutBtn.addEventListener('click', () => {
             sessionStorage.removeItem('currentUser');
             sessionStorage.removeItem('currentRole');
             checkAuth();
         });
 
-        // Render Tickets Function
         function renderTickets() {
             ticketGrid.innerHTML = '';
             const tickets = system.getAllTickets();
-
             if (tickets.length === 0) {
                 ticketGrid.innerHTML = '<p class="text-muted">No tickets found.</p>';
                 return;
             }
-
             tickets.forEach(ticket => {
                 const card = document.createElement('div');
                 card.className = 'ticket-card';
                 const statusClass = `badge-${ticket.status.toLowerCase().replace(' ', '-')}`;
-
                 card.innerHTML = `
                     <div>
                         <div class="ticket-header">
@@ -214,7 +171,6 @@
             });
         }
 
-        // Handle New Ticket Form Submission
         ticketForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const title = document.getElementById('title').value;
@@ -227,14 +183,12 @@
             renderTickets();
         });
 
-        // Helper to prevent basic XSS
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
                 tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
             );
         }
 
-        // Run auth check on initial script load
         checkAuth();
     </script>
 </body>
