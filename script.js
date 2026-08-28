@@ -3,8 +3,8 @@ class Ticket {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.priority = priority; // Low, Medium, High, Urgent
-        this.status = 'Open'; // Open, In Progress, Resolved, Closed
+        this.priority = priority;
+        this.status = 'Open';
         this.createdBy = createdBy;
         this.assignedTo = null;
         this.createdAt = new Date();
@@ -16,21 +16,8 @@ class Ticket {
         this.status = 'In Progress';
     }
 
-    addComment(author, text) {
-        this.comments.push({
-            author,
-            text,
-            timestamp: new Date()
-        });
-    }
-
     updateStatus(newStatus) {
-        const validStatuses = ['Open', 'In Progress', 'Resolved', 'Closed'];
-        if (validStatuses.includes(newStatus)) {
-            this.status = newStatus;
-        } else {
-            throw new Error('Invalid status type.');
-        }
+        this.status = newStatus;
     }
 }
 
@@ -46,80 +33,116 @@ class TicketingSystem {
         return ticket;
     }
 
-    getTicketById(id) {
-        return this.tickets.find(ticket => ticket.id === id);
-    }
-
-    getTicketsByStatus(status) {
-        return this.tickets.filter(ticket => ticket.status === status);
-    }
-
-    assignTicket(ticketId, agentName) {
-        const ticket = this.getTicketById(ticketId);
-        if (ticket) {
-            ticket.assign(agentName);
-            return true;
-        }
-        return false;
-    }
-
-    addCommentToTicket(ticketId, author, text) {
-        const ticket = this.getTicketById(ticketId);
-        if (ticket) {
-            ticket.addComment(author, text);
-            return true;
-        }
-        return false;
-    }
-
-    updateTicketStatus(ticketId, status) {
-        const ticket = this.getTicketById(ticketId);
-        if (ticket) {
-            ticket.updateStatus(status);
-            return true;
-        }
-        return false;
-    }
-
     getAllTickets() {
         return this.tickets;
     }
 }
 
-// ==========================================
-// EXAMPLE USAGE:
-// ==========================================
+// Initialize System & Mock Data
+const system = new TicketingSystem();
+system.createTicket('Cannot connect to VPN', 'Getting error 691 when attempting connection.', 'High', 'Bob');
+system.createTicket('Password Reset', 'Need a reset link for my corporate account.', 'Medium', 'Charlie');
 
-const supportSystem = new TicketingSystem();
+// DOM Elements
+const loginSection = document.getElementById('loginSection');
+const dashboardSection = document.getElementById('dashboardSection');
+const loginForm = document.getElementById('loginForm');
+const logoutBtn = document.getElementById('logoutBtn');
+const welcomeUser = document.getElementById('welcomeUser');
+const ticketForm = document.getElementById('ticketForm');
+const ticketGrid = document.getElementById('ticketGrid');
 
-// 1. Create Tickets
-const ticket1 = supportSystem.createTicket(
-    'Login Issue', 
-    'User cannot log in with correct password.', 
-    'High', 
-    'Alice'
-);
+// Check if user is logged in
+function checkAuth() {
+    const currentUser = sessionStorage.getItem('currentUser');
+    const currentRole = sessionStorage.getItem('currentRole');
 
-const ticket2 = supportSystem.createTicket(
-    'Billing Error', 
-    'Double charged for the monthly subscription.', 
-    'Urgent', 
-    'Bob'
-);
+    if (currentUser) {
+        loginSection.classList.add('hidden');
+        dashboardSection.classList.remove('hidden');
+        welcomeUser.textContent = `Welcome, ${currentUser} (${currentRole})`;
+        renderTickets();
+    } else {
+        loginSection.classList.remove('hidden');
+        dashboardSection.classList.add('hidden');
+    }
+}
 
-// 2. Assign a Ticket to an Agent
-supportSystem.assignTicket(1, 'SupportAgent_John');
+// Handle Login Form Submission
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const role = document.getElementById('role').value;
 
-// 3. Add Comments
-supportSystem.addCommentToTicket(1, 'SupportAgent_John', 'Checking server logs now.');
-supportSystem.addCommentToTicket(1, 'Alice', 'Thank you, please let me know.');
+    if (username) {
+        sessionStorage.setItem('currentUser', username);
+        sessionStorage.setItem('currentRole', role);
+        loginForm.reset();
+        checkAuth();
+    }
+});
 
-// 4. Update Status
-supportSystem.updateTicketStatus(2, 'In Progress');
+// Handle Logout Button
+logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentRole');
+    checkAuth();
+});
 
-// 5. View Results
-console.log('--- All Tickets ---');
-console.log(supportSystem.getAllTickets());
+// Render Tickets to Grid
+function renderTickets() {
+    ticketGrid.innerHTML = '';
+    const tickets = system.getAllTickets();
 
-console.log('--- Filtered: In Progress ---');
-console.log(supportSystem.getTicketsByStatus('In Progress'));
+    if (tickets.length === 0) {
+        ticketGrid.innerHTML = '<p class="text-muted">No tickets found.</p>';
+        return;
+    }
+
+    tickets.forEach(ticket => {
+        const card = document.createElement('div');
+        card.className = 'ticket-card';
+        const statusClass = `badge-${ticket.status.toLowerCase().replace(' ', '-')}`;
+
+        card.innerHTML = `
+            <div>
+                <div class="ticket-header">
+                    <div>
+                        <span class="ticket-id">#${ticket.id}</span>
+                        <h3 class="ticket-title">${escapeHTML(ticket.title)}</h3>
+                    </div>
+                    <span class="badge ${statusClass}">${ticket.status}</span>
+                </div>
+                <p class="ticket-desc">${escapeHTML(ticket.description)}</p>
+            </div>
+            <div class="ticket-footer">
+                <span>By: ${escapeHTML(ticket.createdBy)}</span>
+                <span>Priority: <strong>${ticket.priority}</strong></span>
+            </div>
+        `;
+        ticketGrid.appendChild(card);
+    });
+}
+
+// Handle New Ticket Submission
+ticketForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const priority = document.getElementById('priority').value;
+    const createdBy = sessionStorage.getItem('currentUser') || 'Anonymous';
+
+    system.createTicket(title, description, priority, createdBy);
+    ticketForm.reset();
+    renderTickets();
+});
+
+// Helper to prevent basic XSS
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+}
+
+// Run auth check on initial script load
+checkAuth();
