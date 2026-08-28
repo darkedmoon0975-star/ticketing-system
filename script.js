@@ -10,15 +10,6 @@ class Ticket {
         this.createdAt = new Date();
         this.comments = [];
     }
-
-    assign(agent) {
-        this.assignedTo = agent;
-        this.status = 'In Progress';
-    }
-
-    updateStatus(newStatus) {
-        this.status = newStatus;
-    }
 }
 
 class TicketingSystem {
@@ -52,7 +43,7 @@ const welcomeUser = document.getElementById('welcomeUser');
 const ticketForm = document.getElementById('ticketForm');
 const ticketGrid = document.getElementById('ticketGrid');
 
-// Check if user is logged in
+// Check Session Authentication State
 function checkAuth() {
     const currentUser = sessionStorage.getItem('currentUser');
     const currentRole = sessionStorage.getItem('currentRole');
@@ -68,29 +59,34 @@ function checkAuth() {
     }
 }
 
-// Handle Login Form Submission
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const role = document.getElementById('role').value;
-
-    if (username) {
-        sessionStorage.setItem('currentUser', username);
-        sessionStorage.setItem('currentRole', role);
-        loginForm.reset();
-        checkAuth();
-    }
-});
+// Handle Login Submission
+if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const usernameInput = document.getElementById('username');
+        const roleInput = document.getElementById('role');
+        
+        if (usernameInput && usernameInput.value.trim() !== '') {
+            sessionStorage.setItem('currentUser', usernameInput.value.trim());
+            sessionStorage.setItem('currentRole', roleInput.value);
+            loginForm.reset();
+            checkAuth();
+        }
+    });
+}
 
 // Handle Logout Button
-logoutBtn.addEventListener('click', () => {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('currentRole');
-    checkAuth();
-});
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('currentRole');
+        checkAuth();
+    });
+}
 
-// Render Tickets to Grid
+// Render Tickets Function
 function renderTickets() {
+    if (!ticketGrid) return;
     ticketGrid.innerHTML = '';
     const tickets = system.getAllTickets();
 
@@ -124,25 +120,36 @@ function renderTickets() {
     });
 }
 
-// Handle New Ticket Submission
-ticketForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const priority = document.getElementById('priority').value;
-    const createdBy = sessionStorage.getItem('currentUser') || 'Anonymous';
+// Handle Ticket Creation Form Submission
+if (ticketForm) {
+    ticketForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const titleInput = document.getElementById('title');
+        const descInput = document.getElementById('description');
+        const priorityInput = document.getElementById('priority');
 
-    system.createTicket(title, description, priority, createdBy);
-    ticketForm.reset();
-    renderTickets();
-});
+        if (!titleInput || !descInput || !priorityInput) return;
 
-// Helper to prevent basic XSS
+        const title = titleInput.value.trim();
+        const description = descInput.value.trim();
+        const priority = priorityInput.value;
+        const createdBy = sessionStorage.getItem('currentUser') || 'Anonymous';
+
+        if (title && description) {
+            system.createTicket(title, description, priority, createdBy);
+            ticketForm.reset();
+            renderTickets();
+        }
+    });
+}
+
+// Helper to prevent basic XSS injections
 function escapeHTML(str) {
     return str.replace(/[&<>'"]/g, 
         tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
     );
 }
 
-// Run auth check on initial script load
+// Run initial check on load
 checkAuth();
