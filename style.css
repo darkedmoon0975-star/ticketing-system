@@ -1,241 +1,235 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Ticket System - Login</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Extra styling specifically for the login container */
-        .auth-container {
-            max-width: 400px;
-            margin: 5rem auto;
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid var(--border-color);
-        }
-        .auth-container h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            text-align: center;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .btn-logout {
-            background-color: #ef4444;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-        }
-        .btn-logout:hover {
-            background-color: #dc2626;
-        }
-    </style>
-</head>
-<body>
+/* ==========================================
+   Ticketing System - style.css
+   ========================================== */
 
-    <div id="loginSection" class="auth-container">
-        <h2>System Login</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username or Name</label>
-                <input type="text" id="username" class="form-control" placeholder="Enter your name (e.g., Alice)" required>
-            </div>
-            <div class="form-group">
-                <label for="role">Role</label>
-                <select id="role" class="form-control">
-                    <option value="Customer">Customer</option>
-                    <option value="Support Agent">Support Agent</option>
-                </select>
-            </div>
-            <button type="submit" class="btn" style="width: 100%;">Log In</button>
-        </form>
-    </div>
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    
+    /* Status Colors */
+    --status-open-bg: #fee2e2;
+    --status-open-text: #991b1b;
+    --status-progress-bg: #fef3c7;
+    --status-progress-text: #92400e;
+    --status-resolved-bg: #d1fae5;
+    --status-resolved-text: #065f46;
+    --status-closed-bg: #f1f5f9;
+    --status-closed-text: #475569;
+}
 
-    <div id="dashboardSection" class="dashboard-container hidden">
-        <header>
-            <h1>Support Ticketing System</h1>
-            <div class="user-info">
-                <span id="welcomeUser" style="font-weight: 500;"></span>
-                <button id="logoutBtn" class="btn btn-logout">Log Out</button>
-            </div>
-        </header>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-        <section class="ticket-form-card">
-            <h2>Create New Ticket</h2>
-            <form id="ticketForm">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" class="form-control" placeholder="Brief summary of the issue" required>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" class="form-control" rows="3" placeholder="Detailed description..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="priority">Priority</label>
-                    <select id="priority" class="form-control">
-                        <option value="Low">Low</option>
-                        <option value="Medium" selected>Medium</option>
-                        <option value="High">High</option>
-                        <option value="Urgent">Urgent</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn">Submit Ticket</button>
-            </form>
-        </section>
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding: 2rem;
+}
 
-        <section>
-            <h2>All Tickets</h2>
-            <div id="ticketGrid" class="ticket-grid">
-                </div>
-        </section>
-    </div>
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-    <script>
-        class Ticket {
-            constructor(id, title, description, priority = 'Medium', createdBy) {
-                this.id = id;
-                this.title = title;
-                this.description = description;
-                this.priority = priority;
-                this.status = 'Open';
-                this.createdBy = createdBy;
-                this.assignedTo = null;
-                this.createdAt = new Date();
-                this.comments = [];
-            }
-        }
+header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        class TicketingSystem {
-            constructor() {
-                this.tickets = [];
-                this.counter = 1;
-            }
-            createTicket(title, description, priority, createdBy) {
-                const ticket = new Ticket(this.counter++, title, description, priority, createdBy);
-                this.tickets.push(ticket);
-                return ticket;
-            }
-            getAllTickets() { return this.tickets; }
-        }
+header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
 
-        // Initialize System & Mock Data
-        const system = new TicketingSystem();
-        system.createTicket('Cannot connect to VPN', 'Getting error 691 when attempting connection.', 'High', 'Bob');
-        system.createTicket('Password Reset', 'Need a reset link for my corporate account.', 'Medium', 'Charlie');
+/* Auth / Login Container */
+.auth-container {
+    max-width: 400px;
+    margin: 5rem auto;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border-color);
+}
 
-        // DOM Elements
-        const loginSection = document.getElementById('loginSection');
-        const dashboardSection = document.getElementById('dashboardSection');
-        const loginForm = document.getElementById('loginForm');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const welcomeUser = document.getElementById('welcomeUser');
-        const ticketForm = document.getElementById('ticketForm');
-        const ticketGrid = document.getElementById('ticketGrid');
+.auth-container h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
 
-        // Check if user is already logged in during session
-        function checkAuth() {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const currentRole = sessionStorage.getItem('currentRole');
+.hidden {
+    display: none !important;
+}
 
-            if (currentUser) {
-                loginSection.classList.add('hidden');
-                dashboardSection.classList.remove('hidden');
-                welcomeUser.textContent = `Welcome, ${currentUser} (${currentRole})`;
-                renderTickets();
-            } else {
-                loginSection.classList.remove('hidden');
-                dashboardSection.classList.add('hidden');
-            }
-        }
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
-        // Handle Login Submission
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const role = document.getElementById('role').value;
+.btn-logout {
+    background-color: #ef4444;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
 
-            if (username) {
-                sessionStorage.setItem('currentUser', username);
-                sessionStorage.setItem('currentRole', role);
-                loginForm.reset();
-                checkAuth();
-            }
-        });
+.btn-logout:hover {
+    background-color: #dc2626;
+}
 
-        // Handle Logout
-        logoutBtn.addEventListener('click', () => {
-            sessionStorage.removeItem('currentUser');
-            sessionStorage.removeItem('currentRole');
-            checkAuth();
-        });
+/* Form Styles */
+.ticket-form-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+}
 
-        // Render Tickets Function
-        function renderTickets() {
-            ticketGrid.innerHTML = '';
-            const tickets = system.getAllTickets();
+.ticket-form-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
 
-            if (tickets.length === 0) {
-                ticketGrid.innerHTML = '<p class="text-muted">No tickets found.</p>';
-                return;
-            }
+.form-group {
+    margin-bottom: 1rem;
+}
 
-            tickets.forEach(ticket => {
-                const card = document.createElement('div');
-                card.className = 'ticket-card';
-                const statusClass = `badge-${ticket.status.toLowerCase().replace(' ', '-')}`;
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
 
-                card.innerHTML = `
-                    <div>
-                        <div class="ticket-header">
-                            <div>
-                                <span class="ticket-id">#${ticket.id}</span>
-                                <h3 class="ticket-title">${escapeHTML(ticket.title)}</h3>
-                            </div>
-                            <span class="badge ${statusClass}">${ticket.status}</span>
-                        </div>
-                        <p class="ticket-desc">${escapeHTML(ticket.description)}</p>
-                    </div>
-                    <div class="ticket-footer">
-                        <span>By: ${escapeHTML(ticket.createdBy)}</span>
-                        <span>Priority: <strong>${ticket.priority}</strong></span>
-                    </div>
-                `;
-                ticketGrid.appendChild(card);
-            });
-        }
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    background-color: #fff;
+}
 
-        // Handle New Ticket Form Submission
-        ticketForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const title = document.getElementById('title').value;
-            const description = document.getElementById('description').value;
-            const priority = document.getElementById('priority').value;
-            const createdBy = sessionStorage.getItem('currentUser') || 'Anonymous';
+.form-control:focus {
+    border-color: var(--primary-color);
+}
 
-            system.createTicket(title, description, priority, createdBy);
-            ticketForm.reset();
-            renderTickets();
-        });
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
 
-        // Helper to prevent basic XSS
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
-        }
+.btn:hover {
+    background-color: var(--primary-hover);
+}
 
-        // Run auth check on initial script load
-        checkAuth();
-    </script>
-</body>
-</html>
+/* Ticket Grid & Cards */
+.ticket-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.ticket-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.ticket-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.ticket-id {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.ticket-desc {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+
+/* Badges */
+.badge {
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-open {
+    background-color: var(--status-open-bg);
+    color: var(--status-open-text);
+}
+
+.badge-in-progress {
+    background-color: var(--status-progress-bg);
+    color: var(--status-progress-text);
+}
+
+.badge-resolved {
+    background-color: var(--status-resolved-bg);
+    color: var(--status-resolved-text);
+}
+
+.badge-closed {
+    background-color: var(--status-closed-bg);
+    color: var(--status-closed-text);
+}
+
+.ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
