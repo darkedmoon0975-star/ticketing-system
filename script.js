@@ -328,27 +328,41 @@
             }
         }
 
-        // Handle Login Submission Safely
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const usernameInput = document.getElementById('username');
-                const roleInput = document.getElementById('role');
-                
-                if (usernameInput) {
-                    const username = usernameInput.value.trim();
-                    const role = roleInput ? roleInput.value : 'Customer';
-                    
-                    if (username !== '') {
-                        sessionStorage.setItem('currentUser', username);
-                        sessionStorage.setItem('currentRole', role);
-                        loginForm.reset();
-                        checkAuth(); // Switch views instantly
-                    }
+       // Safer Login Handler with fallback
+if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const usernameInput = document.getElementById('username');
+        const roleInput = document.getElementById('role');
+        
+        if (usernameInput) {
+            const username = usernameInput.value.trim();
+            const role = roleInput ? roleInput.value : 'Customer';
+            
+            if (username !== '') {
+                try {
+                    sessionStorage.setItem('currentUser', username);
+                    sessionStorage.setItem('currentRole', role);
+                } catch (err) {
+                    console.warn('SessionStorage blocked, using fallback memory state.');
+                    window.fallbackUser = username;
+                    window.fallbackRole = role;
                 }
-            });
+                
+                // Directly manipulate classes to ensure instant transition
+                if (loginSection && dashboardSection) {
+                    loginSection.classList.add('hidden');
+                    dashboardSection.classList.remove('hidden');
+                    if (welcomeUser) {
+                        welcomeUser.textContent = `Welcome, ${username} (${role})`;
+                    }
+                    renderTickets();
+                }
+            }
         }
+    });
+}
 
         // Handle Logout Button
         if (logoutBtn) {
