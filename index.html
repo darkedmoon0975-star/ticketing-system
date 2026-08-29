@@ -268,9 +268,9 @@
         <button type="button" id="loginBtn">Sign in</button>
     </div>
 
-    <!-- Dashboard Section (GitHub Dark UI) -->
+    <!-- Dashboard Section -->
     <div id="dashboardSection" class="hidden">
-       <aside>
+        <aside>
             <div class="sidebar-brand">
                 <span>⚡ IT Ticketing</span>
             </div>
@@ -290,33 +290,49 @@
             </header>
 
             <div class="content-body">
-                <div class="ticket-form-box">
-                    <h3>New Issue</h3>
-                    <form id="ticketForm">
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" id="title" placeholder="Brief summary of issue" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Comment / Description</label>
-                            <textarea id="description" rows="3" placeholder="Leave a comment..." required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="priority">Priority</label>
-                            <select id="priority">
-                                <option value="Low">Low</option>
-                                <option value="Medium" selected>Medium</option>
-                                <option value="High">High</option>
-                                <option value="Critical">Critical</option>
-                            </select>
-                        </div>
-                        <button type="submit" style="width: auto;">Submit new issue</button>
-                    </form>
+                <!-- Issues / Tickets View -->
+                <div id="issuesView" class="view-section">
+                    <h3>Open Issues</h3>
+                    <div id="ticketGrid" class="ticket-grid">
+                        <!-- Dynamic tickets load here -->
+                    </div>
                 </div>
 
-                <h3>Open Issues</h3>
-                <div id="ticketGrid" class="ticket-grid">
-                    <!-- Dynamic tickets load here -->
+                <!-- Create Issue View -->
+                <div id="createView" class="view-section hidden">
+                    <div class="ticket-form-box">
+                        <h3>New Issue</h3>
+                        <form id="ticketForm">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" id="title" placeholder="Brief summary of issue" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Comment / Description</label>
+                                <textarea id="description" rows="3" placeholder="Leave a comment..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="priority">Priority</label>
+                                <select id="priority">
+                                    <option value="Low">Low</option>
+                                    <option value="Medium" selected>Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Critical">Critical</option>
+                                </select>
+                            </div>
+                            <button type="submit" style="width: auto;">Submit new issue</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- System Logs View -->
+                <div id="logsView" class="view-section hidden">
+                    <h3>System Logs & Activity</h3>
+                    <div class="ticket-form-box" style="font-family: monospace; font-size: 0.85rem; color: #8b949e;">
+                        <p>[INFO] System initialized successfully.</p>
+                        <p>[INFO] Mock data loaded (2 tickets created).</p>
+                        <p>[AUTH] User session active.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -405,6 +421,27 @@
             });
         }
 
+        // Sidebar Navigation Handling
+        const navIssues = document.getElementById('navIssues');
+        const navCreate = document.getElementById('navCreate');
+        const navLogs = document.getElementById('navLogs');
+
+        const issuesView = document.getElementById('issuesView');
+        const createView = document.getElementById('createView');
+        const logsView = document.getElementById('logsView');
+
+        function switchView(activeNav, activeView) {
+            [navIssues, navCreate, navLogs].forEach(n => n && n.classList.remove('active'));
+            [issuesView, createView, logsView].forEach(v => v && v.classList.add('hidden'));
+
+            if (activeNav) activeNav.classList.add('active');
+            if (activeView) activeView.classList.remove('hidden');
+        }
+
+        if (navIssues) navIssues.addEventListener('click', () => switchView(navIssues, issuesView));
+        if (navCreate) navCreate.addEventListener('click', () => switchView(navCreate, createView));
+        if (navLogs) navLogs.addEventListener('click', () => switchView(navLogs, logsView));
+
         function renderTickets() {
             if (!ticketGrid) return;
             ticketGrid.innerHTML = '';
@@ -458,6 +495,8 @@
                     system.createTicket(title, description, priority, createdBy);
                     ticketForm.reset();
                     renderTickets();
+                    // Automatically switch back to issues view after submitting
+                    switchView(navIssues, issuesView);
                 }
             });
         }
