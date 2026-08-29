@@ -6,200 +6,246 @@
     <title>IT Help Desk Ticketing System</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --danger: #ef4444;
-            --success: #22c55e;
-            --warning: #f59e0b;
+            --bg-canvas: #0d1117;
+            --bg-surface: #161b22;
+            --border-color: #30363d;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --accent: #238636;
+            --accent-hover: #2ea043;
+            --danger: #da3633;
+            --btn-bg: #21262d;
+            --btn-border: #363b42;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
         }
 
         .hidden {
             display: none !important;
         }
 
-        /* Login Container */
+        /* Login Screen Layout */
         #loginSection {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin: auto;
+            background: var(--bg-surface);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
         }
 
         h2, h3 {
-            margin-bottom: 20px;
-            color: var(--text-color);
+            color: var(--text-main);
+            margin-bottom: 16px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+            margin-bottom: 6px;
             font-size: 0.875rem;
+            color: var(--text-main);
         }
 
         input[type="text"], select, textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: 8px 12px;
+            background-color: var(--bg-canvas);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            font-size: 1rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        input[type="text"]:focus, select:focus, textarea:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        input:focus, select:focus, textarea:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
         }
 
         button {
             width: 100%;
-            padding: 10px 16px;
-            background-color: var(--primary);
+            padding: 8px 16px;
+            background-color: var(--accent);
             color: white;
-            border: none;
+            border: 1px solid rgba(27, 31, 36, 0.15);
             border-radius: 6px;
-            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
         }
 
         button:hover {
-            background-color: var(--primary-hover);
+            background-color: var(--accent-hover);
         }
 
-        /* Dashboard Container */
+        /* Dashboard GitHub Layout */
         #dashboardSection {
+            display: flex;
             width: 100%;
-            max-width: 900px;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            min-height: 100vh;
         }
 
-        .dashboard-header {
+        /* Sidebar */
+        aside {
+            width: 260px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 16px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-brand {
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
             align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
+            gap: 10px;
             padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(177, 186, 196, 0.12);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            height: 60px;
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .user-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .content-body {
+            padding: 24px;
+            max-width: 1000px;
+            width: 100%;
         }
 
         .logout-btn {
             width: auto;
-            background-color: var(--danger);
-            padding: 6px 12px;
-            font-size: 0.875rem;
+            background-color: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: var(--text-main);
+            padding: 5px 12px;
+            font-size: 0.85rem;
         }
 
         .logout-btn:hover {
-            background-color: #dc2626;
+            background-color: #30363d;
         }
 
-        .ticket-form-container {
-            background: #f1f5f9;
+        .ticket-form-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
             padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            border-radius: 6px;
+            margin-bottom: 24px;
         }
 
         .ticket-grid {
-            display: grid;
-            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .ticket-card {
-            background: white;
+            background: var(--bg-surface);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .ticket-header {
+            border-radius: 6px;
+            padding: 14px 16px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
+            align-items: center;
+            cursor: pointer;
         }
 
-        .ticket-id {
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: var(--text-muted);
-            text-transform: uppercase;
+        .ticket-card:hover {
+            border-color: #8b949e;
         }
 
         .ticket-title {
-            font-size: 1.1rem;
-            margin-top: 2px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #58a6ff;
+            margin-bottom: 4px;
         }
 
         .ticket-desc {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            margin-bottom: 15px;
         }
 
         .ticket-footer {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-            padding-top: 10px;
+            margin-top: 6px;
+            display: flex;
+            gap: 15px;
         }
 
         .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 2px 8px;
+            border-radius: 12px;
             font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
+            font-weight: 500;
         }
 
         .badge-open {
-            background-color: #dbeafe;
-            color: #1e40af;
+            background-color: rgba(35, 134, 54, 0.2);
+            color: #3fb950;
+            border: 1px solid rgba(35, 134, 54, 0.4);
         }
 
         .text-muted {
             color: var(--text-muted);
-            font-style: italic;
         }
     </style>
 </head>
@@ -208,59 +254,71 @@
     <!-- Login Section -->
     <div id="loginSection">
         <h2>System Login</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username or Name</label>
-                <input type="text" id="username" placeholder="e.g., Alice" required autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="role">Role</label>
-                <select id="role">
-                    <option value="Customer">Customer</option>
-                    <option value="Support Agent">Support Agent</option>
-                </select>
-            </div>
-            <button type="submit">Log In</button>
-        </form>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="e.g., dave" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role">
+                <option value="Customer">Customer</option>
+                <option value="Support Agent">Support Agent</option>
+            </select>
+        </div>
+        <button type="button" id="loginBtn">Sign in</button>
     </div>
 
-    <!-- Dashboard Section -->
+    <!-- Dashboard Section (GitHub Dark UI) -->
     <div id="dashboardSection" class="hidden">
-        <div class="dashboard-header">
-            <div>
-                <h2>IT Support Dashboard</h2>
-                <p id="welcomeUser" class="text-muted" style="font-style: normal; font-size: 0.9rem;"></p>
+        <aside>
+            <div class="sidebar-brand">
+                <span>⚡ IT Ticketing</span>
             </div>
-            <button id="logoutBtn" class="logout-btn">Log Out</button>
-        </div>
+            <ul class="nav-list">
+                <li class="nav-item active">Issues / Tickets</li>
+                <li class="nav-item">Create Issue</li>
+                <li class="nav-item">System Logs</li>
+            </ul>
+        </aside>
 
-        <div class="ticket-form-container">
-            <h3>Create New Ticket</h3>
-            <form id="ticketForm">
-                <div class="form-group">
-                    <label for="title">Issue Summary</label>
-                    <input type="text" id="title" placeholder="Brief description of the problem" required>
+        <div class="main-content">
+            <header>
+                <div>
+                    <span id="welcomeUser" class="user-info">Signed in as</span>
                 </div>
-                <div class="form-group">
-                    <label for="description">Detailed Description</label>
-                    <textarea id="description" rows="3" placeholder="Provide steps or error details..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="priority">Priority</label>
-                    <select id="priority">
-                        <option value="Low">Low</option>
-                        <option value="Medium" selected>Medium</option>
-                        <option value="High">High</option>
-                        <option value="Critical">Critical</option>
-                    </select>
-                </div>
-                <button type="submit">Submit Ticket</button>
-            </form>
-        </div>
+                <button id="logoutBtn" class="logout-btn">Sign out</button>
+            </header>
 
-        <h3>Active Tickets</h3>
-        <div id="ticketGrid" class="ticket-grid">
-            <!-- Tickets will dynamically load here -->
+            <div class="content-body">
+                <div class="ticket-form-box">
+                    <h3>New Issue</h3>
+                    <form id="ticketForm">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" placeholder="Brief summary of issue" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Comment / Description</label>
+                            <textarea id="description" rows="3" placeholder="Leave a comment..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select id="priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+                        <button type="submit" style="width: auto;">Submit new issue</button>
+                    </form>
+                </div>
+
+                <h3>Open Issues</h3>
+                <div id="ticketGrid" class="ticket-grid">
+                    <!-- Dynamic tickets load here -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -273,9 +331,7 @@
                 this.priority = priority;
                 this.status = 'Open';
                 this.createdBy = createdBy;
-                this.assignedTo = null;
                 this.createdAt = new Date();
-                this.comments = [];
             }
         }
 
@@ -284,33 +340,28 @@
                 this.tickets = [];
                 this.counter = 1;
             }
-
             createTicket(title, description, priority, createdBy) {
                 const ticket = new Ticket(this.counter++, title, description, priority, createdBy);
                 this.tickets.push(ticket);
                 return ticket;
             }
-
             getAllTickets() {
                 return this.tickets;
             }
         }
 
-        // Initialize System & Mock Data
         const system = new TicketingSystem();
         system.createTicket('Cannot connect to VPN', 'Getting error 691 when attempting connection.', 'High', 'Bob');
         system.createTicket('Password Reset', 'Need a reset link for my corporate account.', 'Medium', 'Charlie');
 
-        // DOM Elements
         const loginSection = document.getElementById('loginSection');
         const dashboardSection = document.getElementById('dashboardSection');
-        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const welcomeUser = document.getElementById('welcomeUser');
         const ticketForm = document.getElementById('ticketForm');
         const ticketGrid = document.getElementById('ticketGrid');
 
-        // Check Session Authentication State
         function checkAuth() {
             const currentUser = sessionStorage.getItem('currentUser');
             const currentRole = sessionStorage.getItem('currentRole');
@@ -319,7 +370,7 @@
                 loginSection.classList.add('hidden');
                 dashboardSection.classList.remove('hidden');
                 if (welcomeUser) {
-                    welcomeUser.textContent = `Welcome, ${currentUser} (${currentRole})`;
+                    welcomeUser.textContent = `Signed in as ${currentUser} (${currentRole})`;
                 }
                 renderTickets();
             } else if (loginSection && dashboardSection) {
@@ -328,29 +379,24 @@
             }
         }
 
-        // Handle Login Submission Safely
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
                 const usernameInput = document.getElementById('username');
                 const roleInput = document.getElementById('role');
-                
                 if (usernameInput) {
                     const username = usernameInput.value.trim();
                     const role = roleInput ? roleInput.value : 'Customer';
-                    
                     if (username !== '') {
                         sessionStorage.setItem('currentUser', username);
                         sessionStorage.setItem('currentRole', role);
-                        loginForm.reset();
-                        checkAuth(); // Switch views instantly
+                        checkAuth();
+                    } else {
+                        alert('Please enter a username');
                     }
                 }
             });
         }
 
-        // Handle Logout Button
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
                 sessionStorage.removeItem('currentUser');
@@ -359,14 +405,13 @@
             });
         }
 
-        // Render Tickets Function
         function renderTickets() {
             if (!ticketGrid) return;
             ticketGrid.innerHTML = '';
             const tickets = system.getAllTickets();
 
             if (tickets.length === 0) {
-                ticketGrid.innerHTML = '<p class="text-muted">No tickets found.</p>';
+                ticketGrid.innerHTML = '<p class="text-muted">No open issues found.</p>';
                 return;
             }
 
@@ -377,29 +422,27 @@
 
                 card.innerHTML = `
                     <div>
-                        <div class="ticket-header">
-                            <div>
-                                <span class="ticket-id">#${ticket.id}</span>
-                                <h3 class="ticket-title">${escapeHTML(ticket.title)}</h3>
-                            </div>
-                            <span class="badge ${statusClass}">${ticket.status}</span>
+                        <div class="ticket-title">#${ticket.id} ${escapeHTML(ticket.title)}</div>
+                        <div class="ticket-desc">${escapeHTML(ticket.description)}</div>
+                        <div class="ticket-footer">
+                            <span>Opened by ${escapeHTML(ticket.createdBy)}</span>
+                            <span>Priority: <strong>${ticket.priority}</strong></span>
                         </div>
-                        <p class="ticket-desc">${escapeHTML(ticket.description)}</p>
                     </div>
-                    <div class="ticket-footer">
-                        <span>By: ${escapeHTML(ticket.createdBy)}</span>
-                        <span>Priority: <strong>${ticket.priority}</strong></span>
-                    </div>
+                    <span class="badge ${statusClass}">${ticket.status}</span>
                 `;
+
+                card.addEventListener('click', () => {
+                    alert(`Issue #${ticket.id}: ${ticket.title}\n\n${ticket.description}\n\nPriority: ${ticket.priority}`);
+                });
+
                 ticketGrid.appendChild(card);
             });
         }
 
-        // Handle Ticket Creation Form Submission
         if (ticketForm) {
             ticketForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
                 const titleInput = document.getElementById('title');
                 const descInput = document.getElementById('description');
                 const priorityInput = document.getElementById('priority');
@@ -419,14 +462,12 @@
             });
         }
 
-        // Helper to prevent basic XSS injections
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
                 tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
             );
         }
 
-        // Run initial check on page load
         document.addEventListener('DOMContentLoaded', () => {
             checkAuth();
         });
