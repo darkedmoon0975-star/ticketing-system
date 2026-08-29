@@ -373,41 +373,48 @@ if (loginForm) {
             });
         }
 
-        // Render Tickets Function
-        function renderTickets() {
-            if (!ticketGrid) return;
-            ticketGrid.innerHTML = '';
-            const tickets = system.getAllTickets();
+        // Render Tickets Function (Updated to be interactive)
+function renderTickets() {
+    if (!ticketGrid) return;
+    ticketGrid.innerHTML = '';
+    const tickets = system.getAllTickets();
 
-            if (tickets.length === 0) {
-                ticketGrid.innerHTML = '<p class="text-muted">No tickets found.</p>';
-                return;
-            }
+    if (tickets.length === 0) {
+        ticketGrid.innerHTML = '<p class="text-muted">No tickets found.</p>';
+        return;
+    }
 
-            tickets.forEach(ticket => {
-                const card = document.createElement('div');
-                card.className = 'ticket-card';
-                const statusClass = `badge-${ticket.status.toLowerCase().replace(' ', '-')}`;
+    tickets.forEach(ticket => {
+        const card = document.createElement('div');
+        card.className = 'ticket-card';
+        card.style.cursor = 'pointer'; // Shows it's clickable
+        const statusClass = `badge-${ticket.status.toLowerCase().replace(' ', '-')}`;
 
-                card.innerHTML = `
+        card.innerHTML = `
+            <div>
+                <div class="ticket-header">
                     <div>
-                        <div class="ticket-header">
-                            <div>
-                                <span class="ticket-id">#${ticket.id}</span>
-                                <h3 class="ticket-title">${escapeHTML(ticket.title)}</h3>
-                            </div>
-                            <span class="badge ${statusClass}">${ticket.status}</span>
-                        </div>
-                        <p class="ticket-desc">${escapeHTML(ticket.description)}</p>
+                        <span class="ticket-id">#${ticket.id}</span>
+                        <h3 class="ticket-title">${escapeHTML(ticket.title)}</h3>
                     </div>
-                    <div class="ticket-footer">
-                        <span>By: ${escapeHTML(ticket.createdBy)}</span>
-                        <span>Priority: <strong>${ticket.priority}</strong></span>
-                    </div>
-                `;
-                ticketGrid.appendChild(card);
-            });
-        }
+                    <span class="badge ${statusClass}">${ticket.status}</span>
+                </div>
+                <p class="ticket-desc">${escapeHTML(ticket.description)}</p>
+            </div>
+            <div class="ticket-footer">
+                <span>By: ${escapeHTML(ticket.createdBy)}</span>
+                <span>Priority: <strong>${ticket.priority}</strong></span>
+            </div>
+        `;
+
+        // Add click event to open/inspect the ticket
+        card.addEventListener('click', () => {
+            openTicketModal(ticket);
+        });
+
+        ticketGrid.appendChild(card);
+    });
+}
 
         // Handle Ticket Creation Form Submission
         if (ticketForm) {
