@@ -9,25 +9,23 @@
 </head>
 <body>
 
-    <!-- ==========================================
-       LOGIN SECTION (Original Simple Style)
-       ========================================== -->
-    <div id="loginSection" class="auth-container">
+   <!-- Login Section -->
+    <div id="loginSection">
         <h2>System Login</h2>
-        <form id="loginForm">
+        <div id="loginForm"> <!-- Changed from <form> to <div> -->
             <div class="form-group">
                 <label for="username">Username or Name</label>
-                <input type="text" id="username" class="form-control" placeholder="Enter your name (e.g., Alice)" required>
+                <input type="text" id="username" placeholder="e.g., Alice" required autocomplete="off">
             </div>
             <div class="form-group">
                 <label for="role">Role</label>
-                <select id="role" class="form-control">
+                <select id="role">
                     <option value="Customer">Customer</option>
                     <option value="Support Agent">Support Agent</option>
                 </select>
             </div>
-            <button type="submit" class="btn" style="width: 100%;">Log In</button>
-        </form>
+            <button type="button" id="loginBtn">Log In</button> <!-- Changed to type="button" -->
+        </div>
     </div>
 
     <!-- ==========================================
