@@ -1,550 +1,1076 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>IT Ticketing System</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
-    <!-- Icons -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
 
-        <div class="logo">
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<div id="loginPage" class="login-page">
+
+    <div class="login-box">
+
+        <div class="login-logo">
+
             <i class="fa-solid fa-ticket"></i>
-            <span>IT TICKETING</span>
-        </div>
 
-        <ul class="menu">
+            <h1>IT Ticketing</h1>
 
-            <li class="active" onclick="showPage('dashboard')">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Dashboard</span>
-            </li>
-
-            <li onclick="showPage('tickets')">
-                <i class="fa-solid fa-ticket"></i>
-                <span>My Tickets</span>
-            </li>
-
-            <li onclick="showPage('create')">
-                <i class="fa-solid fa-plus"></i>
-                <span>Create Ticket</span>
-            </li>
-
-            <li onclick="showPage('allTickets')">
-                <i class="fa-solid fa-list"></i>
-                <span>All Tickets</span>
-            </li>
-
-            <li onclick="showPage('users')">
-                <i class="fa-solid fa-users"></i>
-                <span>Users</span>
-            </li>
-
-            <li onclick="showPage('reports')">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Reports</span>
-            </li>
-
-        </ul>
-
-        <div class="sidebar-bottom">
-
-            <li>
-                <i class="fa-solid fa-gear"></i>
-                <span>Settings</span>
-            </li>
-
-            <li>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-            </li>
+            <p>IT Support Management System</p>
 
         </div>
 
-    </aside>
 
+        <form id="loginForm">
 
-    <!-- MAIN CONTENT -->
-    <main class="main">
+            <div class="form-group">
 
-        <!-- TOP BAR -->
-        <header class="topbar">
+                <label>Username</label>
 
-            <div>
-                <h2 id="pageTitle">Dashboard</h2>
-                <p>Welcome to the IT Ticketing System</p>
-            </div>
+                <div class="input-icon">
 
-            <div class="profile">
-
-                <div class="notification">
-                    <i class="fa-regular fa-bell"></i>
-                </div>
-
-                <div class="user">
-                    <div class="avatar">D</div>
-
-                    <div>
-                        <strong>Dave</strong>
-                        <small>IT Support</small>
-                    </div>
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <!-- ================= DASHBOARD ================= -->
-
-        <section id="dashboard" class="page active-page">
-
-            <div class="cards">
-
-                <div class="card">
-                    <div>
-                        <p>Total Tickets</p>
-                        <h1 id="totalTickets">0</h1>
-                    </div>
-
-                    <div class="card-icon blue">
-                        <i class="fa-solid fa-ticket"></i>
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div>
-                        <p>Open Tickets</p>
-                        <h1 id="openTickets">0</h1>
-                    </div>
-
-                    <div class="card-icon orange">
-                        <i class="fa-solid fa-folder-open"></i>
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div>
-                        <p>In Progress</p>
-                        <h1 id="progressTickets">0</h1>
-                    </div>
-
-                    <div class="card-icon purple">
-                        <i class="fa-solid fa-spinner"></i>
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div>
-                        <p>Resolved</p>
-                        <h1 id="resolvedTickets">0</h1>
-                    </div>
-
-                    <div class="card-icon green">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <!-- RECENT TICKETS -->
-
-            <div class="section-box">
-
-                <div class="section-header">
-                    <h3>Recent Tickets</h3>
-
-                    <button onclick="showPage('create')" class="primary-btn">
-                        <i class="fa-solid fa-plus"></i>
-                        New Ticket
-                    </button>
-                </div>
-
-
-                <div class="table-container">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Subject</th>
-                                <th>Category</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="recentTickets">
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ================= MY TICKETS ================= -->
-
-        <section id="tickets" class="page">
-
-            <div class="section-box">
-
-                <div class="section-header">
-                    <h3>My Tickets</h3>
-
-                    <button onclick="showPage('create')" class="primary-btn">
-                        <i class="fa-solid fa-plus"></i>
-                        Create Ticket
-                    </button>
-                </div>
-
-                <div class="table-container">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Subject</th>
-                                <th>Category</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="myTickets">
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ================= CREATE TICKET ================= -->
-
-        <section id="create" class="page">
-
-            <div class="form-box">
-
-                <div class="section-header">
-                    <h3>Create New Ticket</h3>
-                </div>
-
-
-                <form id="ticketForm">
-
-                    <div class="form-row">
-
-                        <div class="form-group">
-
-                            <label>Subject</label>
-
-                            <input
-                                type="text"
-                                id="subject"
-                                placeholder="Enter ticket subject"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>Category</label>
-
-                            <select id="category" required>
-
-                                <option value="">Select Category</option>
-
-                                <option value="Hardware">
-                                    Hardware
-                                </option>
-
-                                <option value="Software">
-                                    Software
-                                </option>
-
-                                <option value="Network">
-                                    Network
-                                </option>
-
-                                <option value="Printer">
-                                    Printer
-                                </option>
-
-                                <option value="Account">
-                                    Account
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-row">
-
-                        <div class="form-group">
-
-                            <label>Priority</label>
-
-                            <select id="priority" required>
-
-                                <option value="">Select Priority</option>
-
-                                <option value="Low">
-                                    Low
-                                </option>
-
-                                <option value="Medium">
-                                    Medium
-                                </option>
-
-                                <option value="High">
-                                    High
-                                </option>
-
-                                <option value="Critical">
-                                    Critical
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>Assigned Technician</label>
-
-                            <select id="technician">
-
-                                <option value="Dave">
-                                    Dave
-                                </option>
-
-                                <option value="IT Support">
-                                    IT Support
-                                </option>
-
-                                <option value="Network Team">
-                                    Network Team
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>Description</label>
-
-                        <textarea
-                            id="description"
-                            rows="6"
-                            placeholder="Describe the problem..."
-                            required></textarea>
-
-                    </div>
-
-
-                    <div class="form-buttons">
-
-                        <button
-                            type="button"
-                            class="cancel-btn"
-                            onclick="showPage('dashboard')">
-
-                            Cancel
-
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            class="primary-btn">
-
-                            <i class="fa-solid fa-paper-plane"></i>
-
-                            Submit Ticket
-
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ================= ALL TICKETS ================= -->
-
-        <section id="allTickets" class="page">
-
-            <div class="section-box">
-
-                <div class="section-header">
-
-                    <h3>All Tickets</h3>
+                    <i class="fa-solid fa-user"></i>
 
                     <input
                         type="text"
-                        id="searchTicket"
-                        placeholder="Search tickets..."
-                        onkeyup="searchTickets()">
-
-                </div>
-
-
-                <div class="table-container">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Subject</th>
-                                <th>Category</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Technician</th>
-                                <th>Date</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="allTicketsTable">
-
-                        </tbody>
-
-                    </table>
+                        id="username"
+                        placeholder="Enter username"
+                        required>
 
                 </div>
 
             </div>
 
-        </section>
 
+            <div class="form-group">
 
+                <label>Password</label>
 
-        <!-- ================= USERS ================= -->
+                <div class="input-icon">
 
-        <section id="users" class="page">
+                    <i class="fa-solid fa-lock"></i>
 
-            <div class="section-box">
-
-                <h3>Users</h3>
-
-                <div class="user-list">
-
-                    <div class="user-card">
-                        <div class="avatar">D</div>
-
-                        <div>
-                            <strong>Dave</strong>
-                            <p>IT Support</p>
-                        </div>
-                    </div>
-
-
-                    <div class="user-card">
-                        <div class="avatar">A</div>
-
-                        <div>
-                            <strong>Admin</strong>
-                            <p>Administrator</p>
-                        </div>
-                    </div>
-
-
-                    <div class="user-card">
-                        <div class="avatar">U</div>
-
-                        <div>
-                            <strong>User</strong>
-                            <p>Employee</p>
-                        </div>
-                    </div>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter password"
+                        required>
 
                 </div>
 
             </div>
 
-        </section>
+
+            <button
+                type="submit"
+                class="login-btn">
+
+                <i class="fa-solid fa-right-to-bracket"></i>
+
+                Login
+
+            </button>
+
+
+            <p id="loginError"
+               class="login-error">
+            </p>
+
+        </form>
+
+
+        <div class="demo-login">
+
+            Demo Account<br>
+
+            <strong>admin / admin123</strong>
+
+        </div>
+
+    </div>
+
+</div>
 
 
 
-        <!-- ================= REPORTS ================= -->
+<!-- =====================================================
+     MAIN APPLICATION
+===================================================== -->
 
-        <section id="reports" class="page">
+<div id="app" class="app hidden">
 
-            <div class="cards">
 
-                <div class="card">
-                    <div>
-                        <p>Total Tickets</p>
-                        <h1 id="reportTotal">0</h1>
-                    </div>
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <i class="fa-solid fa-ticket"></i>
+
+        <span>IT TICKETING</span>
+
+    </div>
+
+
+    <ul class="menu">
+
+        <li class="menu-item active"
+            data-page="dashboard"
+            onclick="showPage('dashboard', this)">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>Dashboard</span>
+
+        </li>
+
+
+        <li class="menu-item"
+            data-page="tickets"
+            onclick="showPage('tickets', this)">
+
+            <i class="fa-solid fa-ticket"></i>
+
+            <span>My Tickets</span>
+
+        </li>
+
+
+        <li class="menu-item"
+            data-page="create"
+            onclick="showPage('create', this)">
+
+            <i class="fa-solid fa-plus"></i>
+
+            <span>Create Ticket</span>
+
+        </li>
+
+
+        <li class="menu-item"
+            data-page="allTickets"
+            onclick="showPage('allTickets', this)">
+
+            <i class="fa-solid fa-list"></i>
+
+            <span>All Tickets</span>
+
+        </li>
+
+
+        <li class="menu-item"
+            data-page="users"
+            onclick="showPage('users', this)">
+
+            <i class="fa-solid fa-users"></i>
+
+            <span>Users</span>
+
+        </li>
+
+
+        <li class="menu-item"
+            data-page="reports"
+            onclick="showPage('reports', this)">
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>Reports</span>
+
+        </li>
+
+    </ul>
+
+
+    <div class="sidebar-bottom">
+
+        <li onclick="showPage('settings')">
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>Settings</span>
+
+        </li>
+
+
+        <li onclick="logout()">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>Logout</span>
+
+        </li>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+    <div>
+
+        <h2 id="pageTitle">
+            Dashboard
+        </h2>
+
+        <p id="pageDescription">
+            Welcome to the IT Ticketing System
+        </p>
+
+    </div>
+
+
+    <div class="profile">
+
+
+        <div class="notification"
+             onclick="toggleNotification()">
+
+            <i class="fa-regular fa-bell"></i>
+
+            <span id="notificationBadge">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="user">
+
+            <div
+                class="avatar"
+                id="topAvatar">
+                D
+            </div>
+
+
+            <div>
+
+                <strong id="topUsername">
+                    Admin
+                </strong>
+
+                <small>
+                    IT Support
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section id="dashboard"
+         class="page active-page">
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <div>
+
+                <p>Total Tickets</p>
+
+                <h1 id="totalTickets">
+                    0
+                </h1>
+
+            </div>
+
+            <div class="card-icon blue">
+
+                <i class="fa-solid fa-ticket"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div>
+
+                <p>Open Tickets</p>
+
+                <h1 id="openTickets">
+                    0
+                </h1>
+
+            </div>
+
+            <div class="card-icon orange">
+
+                <i class="fa-solid fa-folder-open"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div>
+
+                <p>In Progress</p>
+
+                <h1 id="progressTickets">
+                    0
+                </h1>
+
+            </div>
+
+            <div class="card-icon purple">
+
+                <i class="fa-solid fa-spinner"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div>
+
+                <p>Resolved</p>
+
+                <h1 id="resolvedTickets">
+                    0
+                </h1>
+
+            </div>
+
+            <div class="card-icon green">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="section-box">
+
+        <div class="section-header">
+
+            <h3>
+                Recent Tickets
+            </h3>
+
+            <button
+                onclick="showPage('create')"
+                class="primary-btn">
+
+                <i class="fa-solid fa-plus"></i>
+
+                New Ticket
+
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Ticket ID</th>
+
+                        <th>Subject</th>
+
+                        <th>Category</th>
+
+                        <th>Priority</th>
+
+                        <th>Status</th>
+
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="recentTickets"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MY TICKETS
+===================================================== -->
+
+<section id="tickets"
+         class="page">
+
+    <div class="section-box">
+
+        <div class="section-header">
+
+            <h3>
+                My Tickets
+            </h3>
+
+            <button
+                onclick="showPage('create')"
+                class="primary-btn">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Create Ticket
+
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="myTickets"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CREATE TICKET
+===================================================== -->
+
+<section id="create"
+         class="page">
+
+    <div class="form-box">
+
+        <div class="section-header">
+
+            <h3>
+                Create New Ticket
+            </h3>
+
+        </div>
+
+
+        <form id="ticketForm">
+
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subject"
+                        placeholder="Example: Computer not working"
+                        required>
+
                 </div>
 
-                <div class="card">
-                    <div>
-                        <p>Resolved</p>
-                        <h1 id="reportResolved">0</h1>
-                    </div>
-                </div>
 
-                <div class="card">
-                    <div>
-                        <p>Open</p>
-                        <h1 id="reportOpen">0</h1>
-                    </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Category
+                    </label>
+
+                    <select id="category"
+                            required>
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option>
+                            Hardware
+                        </option>
+
+                        <option>
+                            Software
+                        </option>
+
+                        <option>
+                            Network
+                        </option>
+
+                        <option>
+                            Printer
+                        </option>
+
+                        <option>
+                            Account
+                        </option>
+
+                    </select>
+
                 </div>
 
             </div>
 
-        </section>
-
-    </main>
 
 
-    <script src="script.js"></script>
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Priority
+                    </label>
+
+                    <select id="priority"
+                            required>
+
+                        <option value="">
+                            Select Priority
+                        </option>
+
+                        <option>
+                            Low
+                        </option>
+
+                        <option>
+                            Medium
+                        </option>
+
+                        <option>
+                            High
+                        </option>
+
+                        <option>
+                            Critical
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Assigned Technician
+                    </label>
+
+                    <select id="technician">
+
+                        <option>
+                            Dave
+                        </option>
+
+                        <option>
+                            IT Support
+                        </option>
+
+                        <option>
+                            Network Team
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    rows="6"
+                    placeholder="Describe the problem..."
+                    required></textarea>
+
+            </div>
+
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="showPage('dashboard')">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Submit Ticket
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ALL TICKETS
+===================================================== -->
+
+<section id="allTickets"
+         class="page">
+
+    <div class="section-box">
+
+        <div class="section-header">
+
+            <h3>
+                All Tickets
+            </h3>
+
+            <input
+                class="search"
+                type="text"
+                id="searchTicket"
+                placeholder="Search tickets..."
+                onkeyup="searchTickets()">
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Technician</th>
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="allTicketsTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     USERS
+===================================================== -->
+
+<section id="users"
+         class="page">
+
+    <div class="section-box">
+
+        <div class="section-header">
+
+            <h3>
+                System Users
+            </h3>
+
+            <button
+                class="primary-btn"
+                onclick="addUser()">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Add User
+
+            </button>
+
+        </div>
+
+
+        <div class="user-list">
+
+
+            <div class="user-card">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <p>
+                        Administrator
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="user-card">
+
+                <div class="avatar">
+                    D
+                </div>
+
+                <div>
+
+                    <strong>
+                        Dave
+                    </strong>
+
+                    <p>
+                        IT Support
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="user-card">
+
+                <div class="avatar">
+                    U
+                </div>
+
+                <div>
+
+                    <strong>
+                        Employee
+                    </strong>
+
+                    <p>
+                        Regular User
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     REPORTS
+===================================================== -->
+
+<section id="reports"
+         class="page">
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div>
+
+                <p>Total Tickets</p>
+
+                <h1 id="reportTotal">
+                    0
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div>
+
+                <p>Open</p>
+
+                <h1 id="reportOpen">
+                    0
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div>
+
+                <p>Resolved</p>
+
+                <h1 id="reportResolved">
+                    0
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SETTINGS
+===================================================== -->
+
+<section id="settings"
+         class="page">
+
+    <div class="section-box">
+
+        <div class="section-header">
+
+            <h3>
+                Settings
+            </h3>
+
+        </div>
+
+
+        <div class="settings-item">
+
+            <div>
+
+                <strong>
+                    Dark Mode
+                </strong>
+
+                <p>
+                    Change the appearance of the system
+                </p>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="darkMode"
+                    onchange="toggleDarkMode()">
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+
+        <div class="settings-item">
+
+            <div>
+
+                <strong>
+                    Notifications
+                </strong>
+
+                <p>
+                    Enable ticket notifications
+                </p>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="notifications"
+                    checked
+                    onchange="toggleNotifications()">
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+
+        <div class="settings-item">
+
+            <div>
+
+                <strong>
+                    Profile
+                </strong>
+
+                <p>
+                    Change your display name
+                </p>
+
+            </div>
+
+
+            <button
+                class="secondary-btn"
+                onclick="changeProfile()">
+
+                Edit Profile
+
+            </button>
+
+        </div>
+
+
+
+        <div class="settings-item">
+
+            <div>
+
+                <strong>
+                    Clear Ticket Data
+                </strong>
+
+                <p>
+                    Delete all saved ticket information
+                </p>
+
+            </div>
+
+
+            <button
+                class="danger-btn"
+                onclick="clearTickets()">
+
+                Clear Data
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<script src="script.js"></script>
 
 </body>
+
 </html>
