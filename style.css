@@ -7,37 +7,198 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     background: #f4f6f9;
-    color: #222;
+    color: #1f2937;
 }
 
 
-/* ================= SIDEBAR ================= */
+/* =========================
+   LOGIN
+========================= */
+
+.login-page {
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #111827;
+}
+
+
+.login-box {
+
+    width: 400px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+}
+
+
+.login-logo {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+
+.login-logo i {
+
+    font-size: 50px;
+
+    color: #2563eb;
+
+    margin-bottom: 15px;
+}
+
+
+.login-logo h1 {
+
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+
+.login-logo p {
+
+    color: #6b7280;
+}
+
+
+.input-icon {
+
+    position: relative;
+}
+
+
+.input-icon i {
+
+    position: absolute;
+
+    left: 13px;
+
+    top: 14px;
+
+    color: #9ca3af;
+}
+
+
+.input-icon input {
+
+    padding-left: 40px;
+}
+
+
+.login-btn {
+
+    width: 100%;
+
+    padding: 13px;
+
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    margin-top: 10px;
+}
+
+
+.login-btn:hover {
+
+    background: #1d4ed8;
+}
+
+
+.login-error {
+
+    color: #dc2626;
+
+    text-align: center;
+
+    margin-top: 15px;
+}
+
+
+.demo-login {
+
+    text-align: center;
+
+    background: #f3f4f6;
+
+    padding: 12px;
+
+    margin-top: 20px;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+
+.hidden {
+
+    display: none !important;
+}
+
+
+
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar {
+
     position: fixed;
+
     left: 0;
     top: 0;
 
     width: 250px;
+
     height: 100vh;
 
     background: #111827;
+
     color: white;
 
     padding: 25px 15px;
 
     display: flex;
+
     flex-direction: column;
 }
 
 
 .logo {
+
     display: flex;
+
     align-items: center;
 
     gap: 12px;
 
     font-size: 19px;
+
     font-weight: bold;
 
     padding: 10px 15px 30px;
@@ -45,11 +206,13 @@ body {
 
 
 .logo i {
+
     font-size: 24px;
 }
 
 
 .menu {
+
     list-style: none;
 }
 
@@ -60,6 +223,7 @@ body {
     list-style: none;
 
     display: flex;
+
     align-items: center;
 
     gap: 15px;
@@ -74,7 +238,7 @@ body {
 
     color: #cbd5e1;
 
-    transition: 0.2s;
+    transition: .2s;
 }
 
 
@@ -82,6 +246,7 @@ body {
 .sidebar-bottom li:hover {
 
     background: #1f2937;
+
     color: white;
 }
 
@@ -89,6 +254,7 @@ body {
 .menu li.active {
 
     background: #2563eb;
+
     color: white;
 }
 
@@ -99,7 +265,10 @@ body {
 }
 
 
-/* ================= MAIN ================= */
+
+/* =========================
+   MAIN
+========================= */
 
 .main {
 
@@ -108,8 +277,6 @@ body {
     min-height: 100vh;
 }
 
-
-/* ================= TOPBAR ================= */
 
 .topbar {
 
@@ -130,6 +297,7 @@ body {
 
 
 .topbar h2 {
+
     font-size: 24px;
 }
 
@@ -154,9 +322,39 @@ body {
 
 .notification {
 
+    position: relative;
+
     font-size: 20px;
 
     cursor: pointer;
+}
+
+
+#notificationBadge {
+
+    position: absolute;
+
+    top: -8px;
+
+    right: -10px;
+
+    background: #dc2626;
+
+    color: white;
+
+    font-size: 10px;
+
+    width: 17px;
+
+    height: 17px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
 }
 
 
@@ -194,13 +392,17 @@ body {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     font-weight: bold;
 }
 
 
-/* ================= PAGE ================= */
+
+/* =========================
+   PAGES
+========================= */
 
 .page {
 
@@ -216,7 +418,10 @@ body {
 }
 
 
-/* ================= CARDS ================= */
+
+/* =========================
+   CARDS
+========================= */
 
 .cards {
 
@@ -244,7 +449,7 @@ body {
 
     justify-content: space-between;
 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
 }
 
 
@@ -274,6 +479,7 @@ body {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     font-size: 20px;
@@ -281,30 +487,41 @@ body {
 
 
 .blue {
+
     background: #dbeafe;
+
     color: #2563eb;
 }
 
 
 .orange {
+
     background: #ffedd5;
+
     color: #f97316;
 }
 
 
 .purple {
+
     background: #ede9fe;
+
     color: #7c3aed;
 }
 
 
 .green {
+
     background: #dcfce7;
+
     color: #16a34a;
 }
 
 
-/* ================= SECTION BOX ================= */
+
+/* =========================
+   SECTION
+========================= */
 
 .section-box,
 .form-box {
@@ -315,7 +532,7 @@ body {
 
     padding: 25px;
 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
 }
 
 
@@ -337,7 +554,10 @@ body {
 }
 
 
-/* ================= BUTTON ================= */
+
+/* =========================
+   BUTTONS
+========================= */
 
 .primary-btn {
 
@@ -352,8 +572,6 @@ body {
     border-radius: 7px;
 
     cursor: pointer;
-
-    font-size: 14px;
 }
 
 
@@ -363,7 +581,8 @@ body {
 }
 
 
-.cancel-btn {
+.cancel-btn,
+.secondary-btn {
 
     border: none;
 
@@ -379,7 +598,26 @@ body {
 }
 
 
-/* ================= TABLE ================= */
+.danger-btn {
+
+    border: none;
+
+    background: #fee2e2;
+
+    color: #dc2626;
+
+    padding: 11px 17px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+
+
+/* =========================
+   TABLE
+========================= */
 
 .table-container {
 
@@ -427,7 +665,10 @@ tr:hover {
 }
 
 
-/* ================= STATUS ================= */
+
+/* =========================
+   STATUS
+========================= */
 
 .status {
 
@@ -465,7 +706,10 @@ tr:hover {
 }
 
 
-/* ================= PRIORITY ================= */
+
+/* =========================
+   PRIORITY
+========================= */
 
 .priority {
 
@@ -497,7 +741,10 @@ tr:hover {
 }
 
 
-/* ================= FORM ================= */
+
+/* =========================
+   FORM
+========================= */
 
 .form-row {
 
@@ -568,12 +815,19 @@ textarea {
     justify-content: flex-end;
 
     gap: 10px;
-
-    margin-top: 10px;
 }
 
 
-/* ================= USERS ================= */
+.search {
+
+    width: 250px;
+}
+
+
+
+/* =========================
+   USERS
+========================= */
 
 .user-list {
 
@@ -611,22 +865,201 @@ textarea {
 }
 
 
-/* ================= RESPONSIVE ================= */
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 20px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.settings-item p {
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* Toggle */
+
+.switch {
+
+    position: relative;
+
+    display: inline-block;
+
+    width: 50px;
+
+    height: 27px;
+}
+
+
+.switch input {
+
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+}
+
+
+.slider {
+
+    position: absolute;
+
+    cursor: pointer;
+
+    inset: 0;
+
+    background: #d1d5db;
+
+    border-radius: 30px;
+
+    transition: .3s;
+}
+
+
+.slider:before {
+
+    content: "";
+
+    position: absolute;
+
+    height: 19px;
+
+    width: 19px;
+
+    left: 4px;
+
+    bottom: 4px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    transition: .3s;
+}
+
+
+.switch input:checked + .slider {
+
+    background: #2563eb;
+}
+
+
+.switch input:checked + .slider:before {
+
+    transform: translateX(23px);
+}
+
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark {
+
+    background: #0f172a;
+
+    color: #e5e7eb;
+}
+
+
+body.dark .topbar,
+body.dark .card,
+body.dark .section-box,
+body.dark .form-box {
+
+    background: #1e293b;
+
+    color: #e5e7eb;
+}
+
+
+body.dark .topbar {
+
+    border-color: #334155;
+}
+
+
+body.dark th {
+
+    background: #334155;
+
+    color: #cbd5e1;
+}
+
+
+body.dark td {
+
+    border-color: #334155;
+}
+
+
+body.dark tr:hover {
+
+    background: #334155;
+}
+
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+
+    background: #0f172a;
+
+    color: white;
+
+    border-color: #475569;
+}
+
+
+body.dark .settings-item {
+
+    border-color: #334155;
+}
+
+
+body.dark .card p,
+body.dark .topbar p,
+body.dark .settings-item p {
+
+    color: #94a3b8;
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 1000px) {
 
     .cards {
 
         grid-template-columns: repeat(2, 1fr);
-
     }
 
     .user-list {
 
         grid-template-columns: 1fr;
-
     }
-
 }
 
 
@@ -635,33 +1068,49 @@ textarea {
     .sidebar {
 
         width: 70px;
-
     }
+
 
     .logo span,
     .menu span,
     .sidebar-bottom span {
 
         display: none;
-
     }
+
 
     .main {
 
         margin-left: 70px;
-
     }
+
 
     .cards {
 
         grid-template-columns: 1fr;
-
     }
+
 
     .form-row {
 
         grid-template-columns: 1fr;
-
     }
 
+
+    .topbar {
+
+        padding: 0 15px;
+    }
+
+
+    .page {
+
+        padding: 15px;
+    }
+
+
+    .login-box {
+
+        width: 90%;
+    }
 }
