@@ -3,513 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Help Desk Ticketing System</title>
-    <style>
-        :root {
-            --bg-canvas: #0d1117;
-            --bg-surface: #161b22;
-            --border-color: #30363d;
-            --text-main: #f0f6fc;
-            --text-muted: #8b949e;
-            --accent: #238636;
-            --accent-hover: #2ea043;
-            --danger: #da3633;
-            --btn-bg: #21262d;
-            --btn-border: #363b42;
-        }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+    <title>IT Ticketing System</title>
 
-        body {
-            background-color: var(--bg-canvas);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-        }
+    <link rel="stylesheet" href="style.css">
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* Login Screen Layout */
-        #loginSection {
-            margin: auto;
-            background: var(--bg-surface);
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            width: 100%;
-            max-width: 380px;
-        }
-
-        h2, h3 {
-            color: var(--text-main);
-            margin-bottom: 16px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.875rem;
-            color: var(--text-main);
-        }
-
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 8px 12px;
-            background-color: var(--bg-canvas);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: #58a6ff;
-            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
-        }
-
-        button {
-            width: 100%;
-            padding: 8px 16px;
-            background-color: var(--accent);
-            color: white;
-            border: 1px solid rgba(27, 31, 36, 0.15);
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* Dashboard GitHub Layout */
-        #dashboardSection {
-            display: flex;
-            width: 100%;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        aside {
-            width: 260px;
-            background-color: var(--bg-surface);
-            border-right: 1px solid var(--border-color);
-            padding: 20px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .sidebar-brand {
-            font-weight: bold;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .nav-item {
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            color: var(--text-main);
-            cursor: pointer;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(177, 186, 196, 0.12);
-        }
-
-        /* Main Content Area */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            height: 60px;
-            background-color: var(--bg-surface);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-        }
-
-        .user-info {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .content-body {
-            padding: 24px;
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        .logout-btn {
-            width: auto;
-            background-color: var(--btn-bg);
-            border: 1px solid var(--btn-border);
-            color: var(--text-main);
-            padding: 5px 12px;
-            font-size: 0.85rem;
-        }
-
-        .logout-btn:hover {
-            background-color: #30363d;
-        }
-
-        .ticket-form-box {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 24px;
-        }
-
-        .ticket-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .ticket-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .ticket-card:hover {
-            border-color: #8b949e;
-        }
-
-        .ticket-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #58a6ff;
-            margin-bottom: 4px;
-        }
-
-        .ticket-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .ticket-footer {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 6px;
-            display: flex;
-            gap: 15px;
-        }
-
-        .badge {
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .badge-open {
-            background-color: rgba(35, 134, 54, 0.2);
-            color: #3fb950;
-            border: 1px solid rgba(35, 134, 54, 0.4);
-        }
-
-        .text-muted {
-            color: var(--text-muted);
-        }
-    </style>
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
 
-    <!-- Login Section -->
-    <div id="loginSection">
-        <h2>System Login</h2>
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="e.g., dave" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <label for="role">Role</label>
-            <select id="role">
-                <option value="Customer">Customer</option>
-                <option value="Support Agent">Support Agent</option>
-            </select>
-        </div>
-        <button type="button" id="loginBtn">Sign in</button>
-    </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <!-- Dashboard Section -->
-    <div id="dashboardSection" class="hidden">
-        <aside>
-            <div class="sidebar-brand">
-                <span>⚡ IT Ticketing</span>
+        <div class="logo">
+            <i class="fa-solid fa-ticket"></i>
+            <span>IT TICKETING</span>
+        </div>
+
+        <ul class="menu">
+
+            <li class="active" onclick="showPage('dashboard')">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </li>
+
+            <li onclick="showPage('tickets')">
+                <i class="fa-solid fa-ticket"></i>
+                <span>My Tickets</span>
+            </li>
+
+            <li onclick="showPage('create')">
+                <i class="fa-solid fa-plus"></i>
+                <span>Create Ticket</span>
+            </li>
+
+            <li onclick="showPage('allTickets')">
+                <i class="fa-solid fa-list"></i>
+                <span>All Tickets</span>
+            </li>
+
+            <li onclick="showPage('users')">
+                <i class="fa-solid fa-users"></i>
+                <span>Users</span>
+            </li>
+
+            <li onclick="showPage('reports')">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Reports</span>
+            </li>
+
+        </ul>
+
+        <div class="sidebar-bottom">
+
+            <li>
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </li>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>Welcome to the IT Ticketing System</p>
             </div>
-            <ul class="nav-list">
-                <li class="nav-item active" id="navIssues">Issues / Tickets</li>
-                <li class="nav-item" id="navCreate">Create Issue</li>
-                <li class="nav-item" id="navLogs">System Logs</li>
-            </ul>
-        </aside>
 
-        <div class="main-content">
-            <header>
-                <div>
-                    <span id="welcomeUser" class="user-info">Signed in as</span>
-                </div>
-                <button id="logoutBtn" class="logout-btn">Sign out</button>
-            </header>
+            <div class="profile">
 
-            <div class="content-body">
-                <!-- Issues / Tickets View -->
-                <div id="issuesView" class="view-section">
-                    <h3>Open Issues</h3>
-                    <div id="ticketGrid" class="ticket-grid">
-                        <!-- Dynamic tickets load here -->
-                    </div>
+                <div class="notification">
+                    <i class="fa-regular fa-bell"></i>
                 </div>
 
-                <!-- Create Issue View -->
-                <div id="createView" class="view-section hidden">
-                    <div class="ticket-form-box">
-                        <h3>New Issue</h3>
-                        <form id="ticketForm">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" id="title" placeholder="Brief summary of issue" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Comment / Description</label>
-                                <textarea id="description" rows="3" placeholder="Leave a comment..." required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="priority">Priority</label>
-                                <select id="priority">
-                                    <option value="Low">Low</option>
-                                    <option value="Medium" selected>Medium</option>
-                                    <option value="High">High</option>
-                                    <option value="Critical">Critical</option>
-                                </select>
-                            </div>
-                            <button type="submit" style="width: auto;">Submit new issue</button>
-                        </form>
-                    </div>
-                </div>
+                <div class="user">
+                    <div class="avatar">D</div>
 
-                <!-- System Logs View -->
-                <div id="logsView" class="view-section hidden">
-                    <h3>System Logs & Activity</h3>
-                    <div class="ticket-form-box" style="font-family: monospace; font-size: 0.85rem; color: #8b949e;">
-                        <p>[INFO] System initialized successfully.</p>
-                        <p>[INFO] Mock data loaded (2 tickets created).</p>
-                        <p>[AUTH] User session active.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        class Ticket {
-            constructor(id, title, description, priority = 'Medium', createdBy) {
-                this.id = id;
-                this.title = title;
-                this.description = description;
-                this.priority = priority;
-                this.status = 'Open';
-                this.createdBy = createdBy;
-                this.createdAt = new Date();
-            }
-        }
-
-        class TicketingSystem {
-            constructor() {
-                this.tickets = [];
-                this.counter = 1;
-            }
-            createTicket(title, description, priority, createdBy) {
-                const ticket = new Ticket(this.counter++, title, description, priority, createdBy);
-                this.tickets.push(ticket);
-                return ticket;
-            }
-            getAllTickets() {
-                return this.tickets;
-            }
-        }
-
-        const system = new TicketingSystem();
-        system.createTicket('Cannot connect to VPN', 'Getting error 691 when attempting connection.', 'High', 'Bob');
-        system.createTicket('Password Reset', 'Need a reset link for my corporate account.', 'Medium', 'Charlie');
-
-        const loginSection = document.getElementById('loginSection');
-        const dashboardSection = document.getElementById('dashboardSection');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const welcomeUser = document.getElementById('welcomeUser');
-        const ticketForm = document.getElementById('ticketForm');
-        const ticketGrid = document.getElementById('ticketGrid');
-
-        function checkAuth() {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const currentRole = sessionStorage.getItem('currentRole');
-
-            if (currentUser && loginSection && dashboardSection) {
-                loginSection.classList.add('hidden');
-                dashboardSection.classList.remove('hidden');
-                if (welcomeUser) {
-                    welcomeUser.textContent = `Signed in as ${currentUser} (${currentRole})`;
-                }
-                renderTickets();
-            } else if (loginSection && dashboardSection) {
-                loginSection.classList.remove('hidden');
-                dashboardSection.classList.add('hidden');
-            }
-        }
-
-        if (loginBtn) {
-            loginBtn.addEventListener('click', () => {
-                const usernameInput = document.getElementById('username');
-                const roleInput = document.getElementById('role');
-                if (usernameInput) {
-                    const username = usernameInput.value.trim();
-                    const role = roleInput ? roleInput.value : 'Customer';
-                    if (username !== '') {
-                        sessionStorage.setItem('currentUser', username);
-                        sessionStorage.setItem('currentRole', role);
-                        checkAuth();
-                    } else {
-                        alert('Please enter a username');
-                    }
-                }
-            });
-        }
-
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                sessionStorage.removeItem('currentUser');
-                sessionStorage.removeItem('currentRole');
-                checkAuth();
-            });
-        }
-
-        // Sidebar Navigation Handling
-        const navIssues = document.getElementById('navIssues');
-        const navCreate = document.getElementById('navCreate');
-        const navLogs = document.getElementById('navLogs');
-
-        const issuesView = document.getElementById('issuesView');
-        const createView = document.getElementById('createView');
-        const logsView = document.getElementById('logsView');
-
-        function switchView(activeNav, activeView) {
-            [navIssues, navCreate, navLogs].forEach(n => n && n.classList.remove('active'));
-            [issuesView, createView, logsView].forEach(v => v && v.classList.add('hidden'));
-
-            if (activeNav) activeNav.classList.add('active');
-            if (activeView) activeView.classList.remove('hidden');
-        }
-
-        if (navIssues) navIssues.addEventListener('click', () => switchView(navIssues, issuesView));
-        if (navCreate) navCreate.addEventListener('click', () => switchView(navCreate, createView));
-        if (navLogs) navLogs.addEventListener('click', () => switchView(navLogs, logsView));
-
-        function renderTickets() {
-            if (!ticketGrid) return;
-            ticketGrid.innerHTML = '';
-            const tickets = system.getAllTickets();
-
-            if (tickets.length === 0) {
-                ticketGrid.innerHTML = '<p class="text-muted">No open issues found.</p>';
-                return;
-            }
-
-            tickets.forEach(ticket => {
-                const card = document.createElement('div');
-                card.className = 'ticket-card';
-                const statusClass = `badge-${ticket.status.toLowerCase().replace(' ', '-')}`;
-
-                card.innerHTML = `
                     <div>
-                        <div class="ticket-title">#${ticket.id} ${escapeHTML(ticket.title)}</div>
-                        <div class="ticket-desc">${escapeHTML(ticket.description)}</div>
-                        <div class="ticket-footer">
-                            <span>Opened by ${escapeHTML(ticket.createdBy)}</span>
-                            <span>Priority: <strong>${ticket.priority}</strong></span>
+                        <strong>Dave</strong>
+                        <small>IT Support</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page active-page">
+
+            <div class="cards">
+
+                <div class="card">
+                    <div>
+                        <p>Total Tickets</p>
+                        <h1 id="totalTickets">0</h1>
+                    </div>
+
+                    <div class="card-icon blue">
+                        <i class="fa-solid fa-ticket"></i>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div>
+                        <p>Open Tickets</p>
+                        <h1 id="openTickets">0</h1>
+                    </div>
+
+                    <div class="card-icon orange">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div>
+                        <p>In Progress</p>
+                        <h1 id="progressTickets">0</h1>
+                    </div>
+
+                    <div class="card-icon purple">
+                        <i class="fa-solid fa-spinner"></i>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div>
+                        <p>Resolved</p>
+                        <h1 id="resolvedTickets">0</h1>
+                    </div>
+
+                    <div class="card-icon green">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- RECENT TICKETS -->
+
+            <div class="section-box">
+
+                <div class="section-header">
+                    <h3>Recent Tickets</h3>
+
+                    <button onclick="showPage('create')" class="primary-btn">
+                        <i class="fa-solid fa-plus"></i>
+                        New Ticket
+                    </button>
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Subject</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recentTickets">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= MY TICKETS ================= -->
+
+        <section id="tickets" class="page">
+
+            <div class="section-box">
+
+                <div class="section-header">
+                    <h3>My Tickets</h3>
+
+                    <button onclick="showPage('create')" class="primary-btn">
+                        <i class="fa-solid fa-plus"></i>
+                        Create Ticket
+                    </button>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Subject</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="myTickets">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= CREATE TICKET ================= -->
+
+        <section id="create" class="page">
+
+            <div class="form-box">
+
+                <div class="section-header">
+                    <h3>Create New Ticket</h3>
+                </div>
+
+
+                <form id="ticketForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Subject</label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                placeholder="Enter ticket subject"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Category</label>
+
+                            <select id="category" required>
+
+                                <option value="">Select Category</option>
+
+                                <option value="Hardware">
+                                    Hardware
+                                </option>
+
+                                <option value="Software">
+                                    Software
+                                </option>
+
+                                <option value="Network">
+                                    Network
+                                </option>
+
+                                <option value="Printer">
+                                    Printer
+                                </option>
+
+                                <option value="Account">
+                                    Account
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Priority</label>
+
+                            <select id="priority" required>
+
+                                <option value="">Select Priority</option>
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                                <option value="Medium">
+                                    Medium
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                                <option value="Critical">
+                                    Critical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Assigned Technician</label>
+
+                            <select id="technician">
+
+                                <option value="Dave">
+                                    Dave
+                                </option>
+
+                                <option value="IT Support">
+                                    IT Support
+                                </option>
+
+                                <option value="Network Team">
+                                    Network Team
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Description</label>
+
+                        <textarea
+                            id="description"
+                            rows="6"
+                            placeholder="Describe the problem..."
+                            required></textarea>
+
+                    </div>
+
+
+                    <div class="form-buttons">
+
+                        <button
+                            type="button"
+                            class="cancel-btn"
+                            onclick="showPage('dashboard')">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="primary-btn">
+
+                            <i class="fa-solid fa-paper-plane"></i>
+
+                            Submit Ticket
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= ALL TICKETS ================= -->
+
+        <section id="allTickets" class="page">
+
+            <div class="section-box">
+
+                <div class="section-header">
+
+                    <h3>All Tickets</h3>
+
+                    <input
+                        type="text"
+                        id="searchTicket"
+                        placeholder="Search tickets..."
+                        onkeyup="searchTickets()">
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Subject</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Technician</th>
+                                <th>Date</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="allTicketsTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= USERS ================= -->
+
+        <section id="users" class="page">
+
+            <div class="section-box">
+
+                <h3>Users</h3>
+
+                <div class="user-list">
+
+                    <div class="user-card">
+                        <div class="avatar">D</div>
+
+                        <div>
+                            <strong>Dave</strong>
+                            <p>IT Support</p>
                         </div>
                     </div>
-                    <span class="badge ${statusClass}">${ticket.status}</span>
-                `;
 
-                card.addEventListener('click', () => {
-                    alert(`Issue #${ticket.id}: ${ticket.title}\n\n${ticket.description}\n\nPriority: ${ticket.priority}`);
-                });
 
-                ticketGrid.appendChild(card);
-            });
-        }
+                    <div class="user-card">
+                        <div class="avatar">A</div>
 
-        if (ticketForm) {
-            ticketForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const titleInput = document.getElementById('title');
-                const descInput = document.getElementById('description');
-                const priorityInput = document.getElementById('priority');
+                        <div>
+                            <strong>Admin</strong>
+                            <p>Administrator</p>
+                        </div>
+                    </div>
 
-                if (!titleInput || !descInput || !priorityInput) return;
 
-                const title = titleInput.value.trim();
-                const description = descInput.value.trim();
-                const priority = priorityInput.value;
-                const createdBy = sessionStorage.getItem('currentUser') || 'Anonymous';
+                    <div class="user-card">
+                        <div class="avatar">U</div>
 
-                if (title && description) {
-                    system.createTicket(title, description, priority, createdBy);
-                    ticketForm.reset();
-                    renderTickets();
-                    // Automatically switch back to issues view after submitting
-                    switchView(navIssues, issuesView);
-                }
-            });
-        }
+                        <div>
+                            <strong>User</strong>
+                            <p>Employee</p>
+                        </div>
+                    </div>
 
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
-        }
+                </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAuth();
-        });
-    </script>
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= REPORTS ================= -->
+
+        <section id="reports" class="page">
+
+            <div class="cards">
+
+                <div class="card">
+                    <div>
+                        <p>Total Tickets</p>
+                        <h1 id="reportTotal">0</h1>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <p>Resolved</p>
+                        <h1 id="reportResolved">0</h1>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <p>Open</p>
+                        <h1 id="reportOpen">0</h1>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
 </body>
 </html>
